@@ -57,22 +57,8 @@ export function FeaturedMeals({ meals }: FeaturedMealsProps) {
                   </span>
                 </div>
                 <div className="flex gap-2">
-                  <EditMealDialog meal={meal}>
-                    <Button
-                      variant="outline"
-                      className="flex-1 border-orange-500 text-orange-500 hover:bg-orange-50 hover:text-orange-600 rounded-lg py-2 px-4 transition duration-200"
-                    >
-                      Edit
-                    </Button>
-                  </EditMealDialog>
-                  <DeleteMealDialog meal={meal}>
-                    <Button
-                      variant="destructive"
-                      className="flex-1 bg-red-500 hover:bg-red-600 text-white rounded-lg py-2 px-4 transition duration-200"
-                    >
-                      Delete
-                    </Button>
-                  </DeleteMealDialog>
+                  <EditMealDialog meal={meal} />
+                  <DeleteMealDialog meal={meal} />
                 </div>
               </div>
             </div>
