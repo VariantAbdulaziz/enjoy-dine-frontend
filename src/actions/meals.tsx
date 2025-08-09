@@ -19,7 +19,7 @@ export const getMealsAction = unauthenticatedAction
     let meals: MealType[];
 
     try {
-      const res = await api.post("/api/v1/dine/foods", parsedInput);
+      const res = await api.post("/dine/foods", parsedInput);
       meals = res.data.result || [];
 
       return { success: true, message: "Meal added successfully!", meals };
@@ -40,7 +40,7 @@ export const addMealAction = unauthenticatedAction
     let meal: MealType | undefined;
 
     try {
-      const res = await api.post("/api/v1/dine/foods", parsedInput);
+      const res = await api.post("/dine/foods", parsedInput);
       meal = res.data;
 
       return { success: true, message: "Meal added successfully!", meal };
@@ -61,10 +61,7 @@ export const updateMealAction = unauthenticatedAction
     let meal: MealType | undefined;
 
     try {
-      const res = await api.put(
-        `/api/v1/dine/foods/${parsedInput.id}`,
-        parsedInput
-      );
+      const res = await api.put(`/dine/foods/${parsedInput.id}`, parsedInput);
       meal = res.data;
 
       return { success: true, message: "Meal updated successfully!", meal };
@@ -84,7 +81,7 @@ export const deleteMealAction = unauthenticatedAction
     const { api } = ctx;
 
     try {
-      await api.delete(`/api/v1/dine/foods/${parsedInput.id}`);
+      await api.delete(`/dine/foods/${parsedInput.id}`);
 
       return { success: true, message: "Meal deleted successfully!" };
     } catch (error) {
