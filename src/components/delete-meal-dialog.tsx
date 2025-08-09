@@ -2,8 +2,7 @@
 
 import React, { useState } from "react";
 import { useAction } from "next-safe-action/hooks";
-import { deleteMealAction } from "@/lib/actions";
-import { Meal } from "@/lib/data";
+import { deleteMealAction } from "@/actions/meals";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,29 +16,26 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { MealType } from "@/lib/validations/meals";
 
 interface DeleteMealDialogProps {
-  meal: Meal;
-  trigger?: React.ReactNode;
+  meal: MealType;
 }
 
-export function DeleteMealDialog({ meal, trigger }: DeleteMealDialogProps) {
+export function DeleteMealDialog({ meal }: DeleteMealDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const { execute, status } = useAction(deleteMealAction, {
     onSuccess: (data) => {
-      if (data.success) {
-        toast.success(data.message);
+      if (data) {
+        toast.success("delete success");
         setIsOpen(false);
       } else {
-        toast.error(data.message || `Failed to delete meal "${meal.name}".`);
+        toast.error(`Failed to delete meal "${meal.name}".`);
       }
     },
     onError: (error) => {
-      toast.error(
-        error.serverError ||
-          "An unexpected error occurred during meal deletion."
-      );
+      toast.error("An unexpected error occurred during meal deletion.");
     },
   });
 
@@ -52,11 +48,9 @@ export function DeleteMealDialog({ meal, trigger }: DeleteMealDialogProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        {trigger || (
-          <Button variant="destructive" className="rounded-lg">
-            Delete
-          </Button>
-        )}
+        <Button variant="destructive" className="rounded-lg">
+          Delete
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="rounded-lg p-6 bg-white shadow-xl">
         <AlertDialogHeader>

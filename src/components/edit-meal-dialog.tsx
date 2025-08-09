@@ -20,10 +20,9 @@ import { MealType } from "@/lib/validations/meals";
 
 interface EditMealDialogProps {
   meal: MealType;
-  trigger?: React.ReactNode;
 }
 
-export function EditMealDialog({ meal, trigger }: EditMealDialogProps) {
+export function EditMealDialog({ meal }: EditMealDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState(meal.name);
   const [description, setDescription] = useState(meal.description);
@@ -67,7 +66,8 @@ export function EditMealDialog({ meal, trigger }: EditMealDialogProps) {
       id: meal.id,
       name,
       description,
-      imageUrl,
+      image: imageUrl,
+      category: "Grill",
       price: parsedPrice,
     });
   };
@@ -77,14 +77,12 @@ export function EditMealDialog({ meal, trigger }: EditMealDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        {trigger || (
-          <Button
-            variant="outline"
-            className="text-blue-600 hover:text-blue-800 rounded-lg"
-          >
-            Edit
-          </Button>
-        )}
+        <Button
+          variant="outline"
+          className="text-blue-600 hover:text-blue-800 rounded-lg"
+        >
+          Edit
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] rounded-lg p-6 bg-white shadow-xl">
         <DialogHeader>

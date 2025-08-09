@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useAction } from "next-safe-action/hooks";
-import { addMealAction } from "@/lib/meals";
 import {
   Dialog,
   DialogContent,
@@ -16,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { addMealAction } from "@/actions/meals";
 
 interface AddMealDialogProps {
   trigger?: React.ReactNode;
@@ -30,22 +30,19 @@ export function AddMealDialog({ trigger }: AddMealDialogProps) {
 
   const { execute, status } = useAction(addMealAction, {
     onSuccess: (data) => {
-      if (data.success) {
-        toast.success(data.message);
+      if (data) {
+        toast.success("success");
         setIsOpen(false);
         setName("");
         setDescription("");
         setImageUrl("");
         setPrice("");
       } else {
-        toast.error(data.message || "Failed to add meal.");
+        toast.error("Failed to add meal.");
       }
     },
     onError: (error) => {
-      toast.error(
-        error.serverError ||
-          "An unexpected error occurred during meal addition."
-      );
+      toast.error("An unexpected error occurred during meal addition.");
     },
   });
 
@@ -64,7 +61,8 @@ export function AddMealDialog({ trigger }: AddMealDialogProps) {
     execute({
       name,
       description,
-      imageUrl,
+      image: "/placeholder.png",
+      category: "Grill",
       price: parsedPrice,
     });
   };
@@ -74,11 +72,9 @@ export function AddMealDialog({ trigger }: AddMealDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        {trigger || (
-          <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg px-6 py-3 shadow-md">
-            Add New Meal
-          </Button>
-        )}
+        <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg px-6 py-3 shadow-md">
+          Add New Meal
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] rounded-lg p-6 bg-white shadow-xl">
         <DialogHeader>

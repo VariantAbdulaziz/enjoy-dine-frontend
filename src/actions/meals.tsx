@@ -10,6 +10,28 @@ import { revalidatePath } from "next/cache";
 import { authenticatedAction } from "@/lib/safe-action";
 import { cookies } from "next/headers";
 import { ActionError } from "@/lib/unsafe-action";
+import z from "zod";
+
+export const getMealsAction = authenticatedAction
+  .schema(z.void())
+  .action(async ({ ctx, parsedInput }) => {
+    const _ = cookies();
+    const { api } = ctx;
+    let meals: MealType[];
+
+    try {
+      const res = await api.post("/api/v1/dine/foods", parsedInput);
+      meals = res.data.result || [];
+
+      return { success: true, message: "Meal added successfully!", meals };
+    } catch (error) {
+      throw new ActionError(
+        error instanceof Error ? error.message : "Failed to add meal"
+      );
+    } finally {
+      revalidatePath("/");
+    }
+  });
 
 export const addMealAction = authenticatedAction
   .schema(AddMealSchema)
@@ -19,7 +41,7 @@ export const addMealAction = authenticatedAction
     let meal: MealType | undefined;
 
     try {
-      const res = await api.post("/api/v1/dine/foods/Food", parsedInput);
+      const res = await api.post("/api/v1/dine/foods", parsedInput);
       meal = res.data;
 
       return { success: true, message: "Meal added successfully!", meal };

@@ -2,9 +2,10 @@ import { FeaturedMeals } from "@/components/featured-meals";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { getMealsAction } from "@/actions/meals";
 
 export default async function HomePage() {
-  const meals = await getMeals();
+  const res = await getMealsAction();
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
@@ -44,7 +45,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <FeaturedMeals meals={meals} />
+      <FeaturedMeals meals={res.data?.meals} />
 
       <footer className="bg-gray-800 text-white py-8 px-4 mt-12 rounded-t-xl shadow-inner">
         <div className="container mx-auto text-center">
