@@ -7,12 +7,11 @@ import {
   MealType,
 } from "@/lib/validations/meals";
 import { revalidatePath } from "next/cache";
-import { authenticatedAction } from "@/lib/safe-action";
 import { cookies } from "next/headers";
-import { ActionError } from "@/lib/unsafe-action";
+import { ActionError, unauthenticatedAction } from "@/lib/unsafe-action";
 import z from "zod";
 
-export const getMealsAction = authenticatedAction
+export const getMealsAction = unauthenticatedAction
   .schema(z.void())
   .action(async ({ ctx, parsedInput }) => {
     const _ = cookies();
@@ -33,7 +32,7 @@ export const getMealsAction = authenticatedAction
     }
   });
 
-export const addMealAction = authenticatedAction
+export const addMealAction = unauthenticatedAction
   .schema(AddMealSchema)
   .action(async ({ ctx, parsedInput }) => {
     const _ = cookies();
@@ -54,7 +53,7 @@ export const addMealAction = authenticatedAction
     }
   });
 
-export const updateMealAction = authenticatedAction
+export const updateMealAction = unauthenticatedAction
   .schema(UpdateMealSchema)
   .action(async ({ ctx, parsedInput }) => {
     const _ = cookies();
@@ -78,7 +77,7 @@ export const updateMealAction = authenticatedAction
     }
   });
 
-export const deleteMealAction = authenticatedAction
+export const deleteMealAction = unauthenticatedAction
   .schema(DeleteMealSchema)
   .action(async ({ ctx, parsedInput }) => {
     const _ = cookies();
