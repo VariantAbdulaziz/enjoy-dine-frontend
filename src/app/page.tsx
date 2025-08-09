@@ -45,7 +45,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <FeaturedMeals meals={res.data?.meals} />
+      <FeaturedMeals meals={res.data?.meals || []} />
 
       <footer className="bg-gray-800 text-white py-8 px-4 mt-12 rounded-t-xl shadow-inner">
         <div className="container mx-auto text-center">
