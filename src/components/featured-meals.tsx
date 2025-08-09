@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { AddMealDialog } from "./add-meal-dialog";
 import { EditMealDialog } from "./edit-meal-dialog";
 import { DeleteMealDialog } from "./delete-meal-dialog";
